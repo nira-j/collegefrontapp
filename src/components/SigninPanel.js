@@ -1,10 +1,41 @@
-import react,{useState} from 'react'
+import {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import userService from '../services/userService';
+import axios from 'axios';
+
 
 export default function SigninPanel(props) {
 
-    const user=useState({})
+    const [userDetails, setUserDetails]=useState({name:'', password:''})
+    const navigate = useNavigate();
 
+    const handleInputChange=(e)=>{
+        const {name, value}=e.target;
+        setUserDetails({...userDetails,[name]: value})
+    }
 
+    const handleSignin=(e)=>{
+        
+        e.preventDefault();
+        axios.post('http://localhost:9095/auth/signin', {
+            username: userDetails.username,
+            password: userDetails.password
+        }).then(function(response){
+            if (response.status === 200){
+                if(response.data.jwttoken){
+                    localStorage.setItem('token', response.data.jwttoken);
+                    if(response.data.username=='admin'){
+                        navigate("/admin/landing")
+                    }else if(response.data.username=='user'){
+                        navigate("/user/landing")
+                    }
+                }
+            }else{
+                alert("bad credentials")
+            }
+        })
+        
+    }
     return (
         <>
         
@@ -26,28 +57,24 @@ export default function SigninPanel(props) {
                                         <form>
                                             <div className="mb-3">
                                                 <label className="form-label" for="basic-default-fullname">Username</label>
-                                                <input type="text" name="username" className="form-control" id="basic-default-fullname" placeholder="John Doe" />
+                                                <input type="text" name="username" className="form-control" id="basic-default-fullname" onChange={handleInputChange} placeholder="John Doe" />
                                             </div>
                                             <div className="mb-3">
                                                 <label className="form-label" for="basic-default-company">Password</label>
-                                                <input type="text" name="password" className="form-control" id="basic-default-company" placeholder="Password" />
+                                                <input type="password" name="password" className="form-control" id="basic-default-company" onChange={handleInputChange} placeholder="Password" />
                                             </div>
                                             <div className="mb-3">
                                                 <a href="">forgot password</a>
                                             </div>
 
-                                            <button type="submit" className="btn btn-primary">Signin</button>
+                                            <button type="submit" className="btn btn-primary" onClick={handleSignin}>Signin</button>
+                                            {/* <button type="button" className="btn btn-outline-secondary mx-3" onClick={props.closeSigninModal}>Close</button> */}
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" className="btn btn-outline-secondary" onClick={props.closeSigninModal}>
-                                Close
-                            </button>
-                            <button type="button" className="btn btn-primary">Save changes</button>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
