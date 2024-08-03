@@ -15,7 +15,8 @@ export default function SigninPanel(props) {
     }
 
     const handleSignin=(e)=>{
-        
+        props.closeSigninModal();
+
         e.preventDefault();
         axios.post('http://localhost:9095/auth/signin', {
             username: userDetails.username,

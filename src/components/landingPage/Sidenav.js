@@ -12,17 +12,16 @@ export default function Sidenav(props) {
                 <ul className="menu-inner py-1 ps ps--active-y">
 
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Profile</div>
+                            <div data-i18n="Analytics">Update Profile</div>
                         </a>
                     </li>
 
-
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Apply For Examination</div>
+                            <div data-i18n="Analytics" onClick={()=>{props.setSidenavBtnState({examform: true})}}>Apply For Examination</div>
                         </a>
                     </li>
 
@@ -30,19 +29,19 @@ export default function Sidenav(props) {
                         <span className="menu-header-text">acedemics</span>
                     </li>
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Admitcard</div>
                         </a>
                     </li>
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Result</div>
                         </a>
                     </li>
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Scrutiny</div>
                         </a>
@@ -51,14 +50,14 @@ export default function Sidenav(props) {
                     <li className="menu-header small text-uppercase"><span className="menu-header-text">Components</span></li>
 
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics" data-toggle='modal' data-target='#mobileUpdatemodal'>Update mobile & email</div>
+                            <div data-i18n="Analytics" data-toggle='modal' onClick={()=>{props.setSidenavBtnState({updateMobile: true})}}>Update mobile & email</div>
                         </a>
                     </li>
 
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Fee's Payment</div>
                         </a>
@@ -66,20 +65,20 @@ export default function Sidenav(props) {
 
 
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">News & Events</div>
                         </a>
                     </li>
 
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Feed Back</div>
                         </a>
                     </li>
                     <li className="menu-item">
-                        <a href="" className="menu-link">
+                        <a className="menu-link">
                             <i className="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics" onClick={()=>{props.setSidenavBtnState({updatePassword: true})}}>Change Password</div>
                         </a>
