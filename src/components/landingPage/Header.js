@@ -94,9 +94,9 @@ export default function Header(props) {
                                     <div className="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a className="dropdown-item">
+                                    <a className="dropdown-item" onClick={signout}>
                                         <i className="bx bx-power-off me-2"></i>
-                                        <span className="align-middle" onClick={signout}>Sign out</span>
+                                        <span className="align-middle">Sign out</span>
                                     </a>
                                 </li>
                             </ul>

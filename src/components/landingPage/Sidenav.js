@@ -1,90 +1,60 @@
-import react from 'react'
+import react, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import SidenavButton from './usercomponent/SidenavButton';
+
 
 export default function Sidenav(props) {
+
+    const [activeItem, setActiveItem] = useState('Profile');
+    
+
     return (
         <>
             <aside id="layout-menu" className="layout-menu menu-vertical menu bg-menu-theme" data-bg-className="bg-menu-theme">
-
                 <li className="menu-header small text-uppercase">
                     <span className="menu-header-text">Personal Details</span>
                 </li>
-
                 <ul className="menu-inner py-1 ps ps--active-y">
+                    {
+                        sessionStorage.getItem('role')=='USER' && (
+                            <>
+                            <SidenavButton value="Profile" actionpath="/user/landing" activeItem={activeItem} setActiveItem = {setActiveItem}/>
+                            <SidenavButton value="Update Profile" actionpath="/user/profile/update" activeItem={activeItem} setActiveItem={setActiveItem} />
+                            <SidenavButton value="Apply For Examination" actionpath="user/examform" activeItem={activeItem} setActiveItem={setActiveItem}/>
+                            
+                            <li className="menu-header small text-uppercase">
+                                <span className="menu-header-text">acedemics</span>
+                            </li>
+                            <SidenavButton value="Admitcard" actionpath="/user/landing" activeItem={activeItem} setActiveItem = {setActiveItem}/>
+                            <SidenavButton value="Result" actionpath="/user/profile/update" activeItem={activeItem} setActiveItem={setActiveItem} />
+                            <SidenavButton value="Scrutiny" actionpath="user/examform" activeItem={activeItem} setActiveItem={setActiveItem}/>
+                            <li className="menu-header small text-uppercase"><span className="menu-header-text">Components</span></li>
 
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Update Profile</div>
-                        </a>
-                    </li>
+                            <SidenavButton value="Fee's Payment" actionpath="/user/landing" activeItem={activeItem} setActiveItem = {setActiveItem}/>
+                            <SidenavButton value="News & Events" actionpath="/user/profile/update" activeItem={activeItem} setActiveItem={setActiveItem} />
+                            <SidenavButton value="Feed Back" actionpath="user/examform" activeItem={activeItem} setActiveItem={setActiveItem}/>
+                            <SidenavButton value="Update mobile & email" actionpath="user/examform" activeItem={activeItem} setActiveItem={setActiveItem}/>
+                            <SidenavButton value="Change Password" actionpath="user/examform" activeItem={activeItem} setActiveItem={setActiveItem}/>
+                            </>
+                        )
+                    }
 
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics" onClick={()=>{props.setSidenavBtnState({examform: true})}}>Apply For Examination</div>
-                        </a>
-                    </li>
-
-                    <li className="menu-header small text-uppercase">
-                        <span className="menu-header-text">acedemics</span>
-                    </li>
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Admitcard</div>
-                        </a>
-                    </li>
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Result</div>
-                        </a>
-                    </li>
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Scrutiny</div>
-                        </a>
-                    </li>
-
-                    <li className="menu-header small text-uppercase"><span className="menu-header-text">Components</span></li>
-
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics" data-toggle='modal' onClick={()=>{props.setSidenavBtnState({updateMobile: true})}}>Update mobile & email</div>
-                        </a>
-                    </li>
-
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Fee's Payment</div>
-                        </a>
-                    </li>
+                    {
+                        sessionStorage.getItem('role')=='ADMIN' && (
+                            <>
+                                <SidenavButton value="Dashboard" actionpath="/admin/landing" activeItem={activeItem} setActiveItem = {setActiveItem}/>
+                                <SidenavButton value="Profile" actionpath="/admin/profile" activeItem={activeItem} setActiveItem = {setActiveItem}/>
+                                <SidenavButton value="Update Profile" actionpath="/admin/profile/update" activeItem={activeItem} setActiveItem={setActiveItem} />
+                            
+                            </>
+                        )
+                    }
 
 
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">News & Events</div>
-                        </a>
-                    </li>
-
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics">Feed Back</div>
-                        </a>
-                    </li>
-                    <li className="menu-item">
-                        <a className="menu-link">
-                            <i className="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div data-i18n="Analytics" onClick={()=>{props.setSidenavBtnState({updatePassword: true})}}>Change Password</div>
-                        </a>
-                    </li>
-
-                    <div className="ps__rail-x" style={{ 'left': '0px', 'bottom': '0px' }}><div className="ps__thumb-x" tabindex="0" style={{ 'left': '0px', 'width': '0px' }}></div></div><div className="ps__rail-y" style={{ 'top': '0px', 'height': '168px', 'right': '4px' }}><div className="ps__thumb-y" tabindex="0" style={{ 'top': '0px', 'height': '27px' }}></div></div></ul>
+                    <div className="ps__rail-x" style={{'left': '0px', 'bottom': '-416px'}}>
+                        <div className="ps__thumb-x" tabindex="0" style={{'left': '0px', 'width': '0px'}}></div></div>
+                    <div className="ps__rail-y" style={{'top': '463px', 'height': '162px','right': '4px'}}><div className="ps__thumb-y" tabindex="0" style={{'top': '84px', 'height': '29px'}}></div></div>
+                </ul>
             </aside>
         </>
     );

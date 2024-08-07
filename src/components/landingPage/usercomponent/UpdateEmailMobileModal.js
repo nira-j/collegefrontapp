@@ -35,7 +35,7 @@ export default function UpdateEmailMobileModal(props) {
                             <button type="button" class="btn btn-secondary" onClick={() => {
                                 props.setSidenavBtnState({ updateMobile: false })
                             }}>Close</button>
-                            <button type="button" class="btn btn-primary" onClick={ props.handleMobileEmailUpdate(mobEmail) }>Update</button>
+                            <button type="button" class="btn btn-primary" onClick={()=>{props.handleMobileEmailUpdate(mobEmail)} }>Update</button>
                         </div>
                     </div>
                 </div>

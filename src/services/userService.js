@@ -1,12 +1,11 @@
-import axios from 'axios';
+import axios from '../api/CustomAxiosConfig';
 
-const baseApi=""
 class UserService{
+    
 
     userSignin(userDetail){
         try{
-            alert(userDetail.username+"---"+userDetail.password)
-            return axios.post('http://localhost:9095/auth/signin', {
+            return axios.post('/auth/signin', {
                 username: userDetail.username,
                 password: userDetail.password
             });
@@ -14,9 +13,8 @@ class UserService{
             return e;
         }
     }
-    getUser(id){
-        return axios.get(baseApi);
-    }
+   
+
 }
 
 export default new UserService();

@@ -1,4 +1,68 @@
-export default function Content(props) {
+import {react,useState, useEffect} from 'react'
+import { useNavigate } from "react-router-dom";
+// import axios from '../../api/CustomAxiosConfig';
+import axios from 'axios';
+
+
+export default function UserProfile() {
+
+    const navigate = useNavigate();
+    const [userDetails, setUserDetails] = useState({});
+    const [profilePath, setProfilePath] = useState(null);
+    const [signaturePath, setSignaturePath] = useState(null);
+
+    const gconfig = {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        }
+    };
+
+    const fetchdata = async () => {
+        try {
+            const response = await axios.get('http://localhost:9095/api/v1/get/userdetails', gconfig);
+            if (response.status === 200) {
+                setUserDetails(response.data);
+                setProfilePath(`/uploadedimg/${response.data.profileimage}`);
+                setSignaturePath(`/uploadedimg/${response.data.profilesignature}`);
+
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        if(localStorage.getItem('token')){
+            fetchdata();
+        }else{
+            navigate('/')
+        }
+    }, []);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        const formData = new FormData();
+        formData.append(e.target.name, file);
+
+        try {
+            const config = {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            const response = await axios.post(`http://localhost:9095/api/v1/upload/${e.target.name}`, formData, config);
+            if (e.target.name === 'profileimage') {
+                setProfilePath(URL.createObjectURL(file));
+            } else if (e.target.name === 'signatureimage') {
+                setSignaturePath(URL.createObjectURL(file));
+            }
+            alert(response.data);
+        } catch (exc) {
+            console.log(exc);
+        }
+    };
+
     return (
         <>
             <div className="container-xxl flex-grow-1 container-p-y">
@@ -19,12 +83,12 @@ export default function Content(props) {
                             <h5 className="card-header">Profile Details</h5>
                             <div class="card-body">
                                 <div class="d-flex align-items-start align-items-sm-center gap-4">
-                                    <img src={props.profilePath} alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
+                                    <img src={profilePath} alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" />
                                     <div class="button-wrapper">
                                         <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
                                             <span class="d-none d-sm-block">Upload new photo</span>
                                             <i class="bx bx-upload d-block d-sm-none"></i>
-                                            <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" name="profileimage" onChange={props.handleFileChange} />
+                                            <input type="file" id="upload" class="account-file-input" hidden accept="image/png, image/jpeg" name="profileimage" onChange={handleFileChange} />
                                         </label>
                                         <button type="button" class="btn btn-outline-secondary account-image-reset mb-4">
                                             <i class="bx bx-reset d-block d-sm-none"></i>
@@ -41,34 +105,34 @@ export default function Content(props) {
                                     <div className="row">
                                         <div className="mb-3 col-md-6">
                                             <label for="firstName" className="form-label">First Name</label>
-                                            <input className="form-control" type="text" id="firstName" name="firstName" value={props.userDetails.firstname} readOnly />
+                                            <input className="form-control" type="text" id="firstName" name="firstName" value={userDetails.firstname} readOnly />
                                         </div>
                                         <div className="mb-3 col-md-6">
                                             <label for="lastName" className="form-label">Last Name</label>
-                                            <input className="form-control" type="text" name="lastName" id="lastName" value={props.userDetails.lastname} readOnly />
+                                            <input className="form-control" type="text" name="lastName" id="lastName" value={userDetails.lastname} readOnly />
                                         </div>
                                         <div className="mb-3 col-md-6">
                                             <label for="email" className="form-label">E-mail</label>
-                                            <input className="form-control" type="text" id="email" name="email" value={props.userDetails.emailid} placeholder="john.doe@example.com" />
+                                            <input className="form-control" type="text" id="email" name="email" value={userDetails.emailid} placeholder="john.doe@example.com" />
                                         </div>
                                         <div className="mb-3 col-md-6">
                                             <label for="organization" className="form-label">Dob</label>
-                                            <input type="text" className="form-control" id="organization" name="organization" value={props.userDetails.dob} />
+                                            <input type="text" className="form-control" id="organization" name="organization" value={userDetails.dob} />
                                         </div>
                                         <div className="mb-3 col-md-6">
                                             <label className="form-label" for="phoneNumber">Phone Number</label>
                                             <div className="input-group input-group-merge">
                                                 <span className="input-group-text"> (+91)</span>
-                                                <input type="text" id="phoneNumber" name="phoneNumber" className="form-control" value={props.userDetails.mobileno} />
+                                                <input type="text" id="phoneNumber" name="phoneNumber" className="form-control" value={userDetails.mobileno} />
                                             </div>
                                         </div>
                                         <div className="mb-3 col-md-6">
                                             <label for="address" className="form-label">Gender</label>
-                                            <input type="text" className="form-control" id="address" value={props.userDetails.gender} />
+                                            <input type="text" className="form-control" id="address" value={userDetails.gender} />
                                         </div>
                                         <div className="mb-3 col-md-6">
                                             <label for="state" className="form-label">Course</label>
-                                            <input className="form-control" type="text" value={props.userDetails.course} />
+                                            <input className="form-control" type="text" value={userDetails.course} />
                                         </div>
                                         <div className="mb-3 col-md-6">
                                             <label for="zipCode" className="form-label">Zip Code</label>

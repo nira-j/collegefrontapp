@@ -16,18 +16,15 @@ export default function SigninPanel(props) {
 
     const handleSignin=(e)=>{
         props.closeSigninModal();
-
         e.preventDefault();
-        axios.post('http://localhost:9095/auth/signin', {
-            username: userDetails.username,
-            password: userDetails.password
-        }).then(function(response){
+        userService.userSignin(userDetails).then(function(response){
             if (response.status === 200){
                 if(response.data.jwttoken){
                     localStorage.setItem('token', response.data.jwttoken);
-                    if(response.data.username=='admin'){
+                    sessionStorage.setItem("role",response.data.role);
+                    if(response.data.role==='ADMIN'){
                         navigate("/admin/landing")
-                    }else if(response.data.username=='user'){
+                    }else if(response.data.role==='USER'){
                         navigate("/user/landing")
                     }
                 }
@@ -39,7 +36,6 @@ export default function SigninPanel(props) {
     }
     return (
         <>
-        
             <div className="modal fade show" id="signinModal" style={{'display': 'block', 'padding-left': '0px'}} aria-modal="true" role="dialog">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
