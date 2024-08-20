@@ -8,10 +8,13 @@ import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import React, { useState } from 'react';
 import UserLanding from './components/landingPage/UserLanding';
 import UserProfile from './components/landingPage/usercomponent/UserProfile';
-import AdminLanding from './components/landingPage/AdminLanding';
 import Examform from './components/landingPage/usercomponent/Examform';
 import UserProfileUpdate from './components/landingPage/UserProfileUpdate';
 import AdminDashboard from './components/landingPage/admincomponent/AdminDashboard';
+import NewCoursePage from './components/landingPage/admincomponent/NewCoursePage';
+import { StudentList } from './components/landingPage/admincomponent/StudentList';
+import { CourseList } from './components/landingPage/admincomponent/CourseList';
+import NewStudentPage from './components/landingPage/admincomponent/NewStudentPage'
 
 function App() {
   const [isSigninModalOpen, setIsSigninModalOpen] = useState(false);
@@ -54,10 +57,14 @@ const closeSignupModal = () => {
         </Route>
 
 
-        <Route element={<AdminLanding />}>
+        <Route element={<UserLanding />}>
         <Route path="/admin/landing" element={<AdminDashboard/ >}/>
         <Route path="/admin/profile" element={<UserProfile />} />
         <Route path="/admin/profile/update" element={<UserProfileUpdate />}/> 
+        <Route path="/admin/add/student" element={<NewStudentPage />}/> 
+        <Route path="/admin/add/course" element={<NewCoursePage />}/> 
+        <Route path="/admin/student/list" element={<StudentList />}/> 
+        <Route path="/admin/course/list" element={<CourseList />}/> 
         </Route>
 
       </Routes>

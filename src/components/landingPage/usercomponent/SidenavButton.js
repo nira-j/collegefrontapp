@@ -5,6 +5,12 @@ export default function SidenavButton(props){
     const navigate=useNavigate()
 
     const handleClick = () => {
+        if(props.value==='Change Password'){
+            props.setSidenavBtnState({updatePassword:true})      
+        }
+        if(props.value==='Update mobile & email'){
+            props.setSidenavBtnState({updateMobile:true}) 
+        }
         props.setActiveItem(props.value);
         navigate(props.actionpath);
       };

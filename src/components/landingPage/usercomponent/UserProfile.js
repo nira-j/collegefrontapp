@@ -1,44 +1,13 @@
-import {react,useState, useEffect} from 'react'
+import {react,useState, useEffect, useContext} from 'react'
 import { useNavigate } from "react-router-dom";
 // import axios from '../../api/CustomAxiosConfig';
 import axios from 'axios';
+import { useOutletContext } from 'react-router-dom';
 
 
 export default function UserProfile() {
 
-    const navigate = useNavigate();
-    const [userDetails, setUserDetails] = useState({});
-    const [profilePath, setProfilePath] = useState(null);
-    const [signaturePath, setSignaturePath] = useState(null);
-
-    const gconfig = {
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        }
-    };
-
-    const fetchdata = async () => {
-        try {
-            const response = await axios.get('http://localhost:9095/api/v1/get/userdetails', gconfig);
-            if (response.status === 200) {
-                setUserDetails(response.data);
-                setProfilePath(`/uploadedimg/${response.data.profileimage}`);
-                setSignaturePath(`/uploadedimg/${response.data.profilesignature}`);
-
-            }
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
-    };
-
-    useEffect(() => {
-        if(localStorage.getItem('token')){
-            fetchdata();
-        }else{
-            navigate('/')
-        }
-    }, []);
-
+    const { userDetails, profilePath,setProfilePath, setSignaturePath}=useOutletContext();
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         const formData = new FormData();

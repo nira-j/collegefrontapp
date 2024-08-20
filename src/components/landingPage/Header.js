@@ -4,6 +4,7 @@ export default function Header(props) {
 
     const navigate=useNavigate();
     function signout(){
+        sessionStorage.removeItem('role')
         localStorage.removeItem('token')
         navigate('/')
     }
@@ -33,21 +34,11 @@ export default function Header(props) {
                     </div>
 
                     <ul className="navbar-nav flex-row align-items-center ms-auto">
-                        <li className="nav-item lh-1 me-3">
-                            <a
-                                className="github-button"
-                                href="https://github.com/themeselection/sneat-html-admin-template-free"
-                                data-icon="octicon-star"
-                                data-size="large"
-                                data-show-count="true"
-                                aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-                            >Star</a>
-                        </li>
 
                         <li className="nav-item navbar-dropdown dropdown-user dropdown">
                             <a className="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                 <div className="avatar avatar-online">
-                                    <img src={props.profilePath} alt className="w-px-40 h-auto rounded-circle" />
+                                    <h6>Account</h6>
                                 </div>
                             </a>
                             <ul className="dropdown-menu dropdown-menu-end">
@@ -55,13 +46,11 @@ export default function Header(props) {
                                     <a className="dropdown-item" href="#">
                                         <div className="d-flex">
                                             <div className="flex-shrink-0 me-3">
-                                                <div className="avatar avatar-online">
-                                                    <img src={props.profilePath} alt className="w-px-40 h-auto rounded-circle" />
-                                                </div>
+                                                
                                             </div>
                                             <div className="flex-grow-1">
-                                                <span className="fw-semibold d-block">John Doe</span>
-                                                <small className="text-muted">Admin</small>
+                                                <span className="fw-semibold d-block">{sessionStorage.getItem('username')}</span>
+                                                <small className="text-muted">{sessionStorage.getItem('role')}</small>
                                             </div>
                                         </div>
                                     </a>
@@ -70,7 +59,7 @@ export default function Header(props) {
                                     <div className="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a className="dropdown-item" href="#">
+                                    <a className="dropdown-item" onClick={()=>{navigate("/user/landing")}}>
                                         <i className="bx bx-user me-2"></i>
                                         <span className="align-middle">My Profile</span>
                                     </a>

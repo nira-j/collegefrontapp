@@ -22,6 +22,7 @@ export default function SigninPanel(props) {
                 if(response.data.jwttoken){
                     localStorage.setItem('token', response.data.jwttoken);
                     sessionStorage.setItem("role",response.data.role);
+                    sessionStorage.setItem("username",response.data.username);
                     if(response.data.role==='ADMIN'){
                         navigate("/admin/landing")
                     }else if(response.data.role==='USER'){
