@@ -12,7 +12,7 @@ export default function SignupPanel(props) {
     
     
     const submitForm = async (e) => {
-        e.preventDefault(); // Prevents the default form submission behavior
+        // e.preventDefault(); // Prevents the default form submission behavior
         const gconfig = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -53,11 +53,11 @@ export default function SignupPanel(props) {
                             <div className="row">
                                 <div className="col mb-0">
                                     <label for="nameBasic" className="form-label">Email id</label>
-                                    <input type="email" id="emailBasic" className="form-control" name="lastname" onChange={handleInputChanges} placeholder=""/>
+                                    <input type="email" id="emailBasic" className="form-control" name="emailid" onChange={handleInputChanges} placeholder=""/>
                                 </div>
                                 <div className="col mb-0">
                                     <label for="dobBasic" className="form-label">DOB</label>
-                                    <input type="text" id="dobBasic" className="form-control" name="dob" onChange={handleInputChanges} placeholder="DD / MM / YY" />
+                                    <input type="date" id="dobBasic" className="form-control" name="dob" onChange={handleInputChanges} placeholder="DD / MM / YY" />
                                 </div>
                             </div>
 
@@ -76,7 +76,7 @@ export default function SignupPanel(props) {
                             <button type="button" className="btn btn-outline-secondary" onClick={props.closeSignupModal}>
                                 Close
                             </button>
-                            <button type="button" className="btn btn-primary" onClick={submitForm}>Signup</button>
+                            <button type="button" className="btn btn-primary" onClick={()=>{submitForm(); props.closeSignupModal();}}>Signup</button>
                         </div>
                     </div>
                 </div>

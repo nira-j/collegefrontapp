@@ -1,15 +1,38 @@
-import react from 'react'
-import college1 from '../images/university3.jpg'
-import college2 from '../images/university6.jpg'
-import college3 from '../images/university5.jpg'
-import logo from '../images/univlogo.jpg'
+import {react,useEffect,useState} from 'react';
+import college1 from '../images/university3.jpg';
+import college2 from '../images/university6.jpg';
+import college3 from '../images/university5.jpg';
+import logo from '../images/univlogo.jpg';
+import Programs from  '../components/Programs.js';
+import {useNavigate} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function HomePage(props) {
-
+    
+    const navigate=useNavigate();
+    const [coursesList, setCoursesList] = useState([]);
     const img_dim = {
         'heigth': '100%',
         'heigth': '80%',
     }
+
+    const getcourses= async ()=>{
+        try{
+            const res = await axios.get('http://localhost:9095/api/v1/getall/courses');
+        if (res.status === 200) {
+            if (res.data) {
+                setCoursesList(res.data);
+            }
+        }
+        }catch(err){
+            alert("something went wrong !");
+        }
+    }
+
+    useEffect(()=>{
+        getcourses();
+    },[])
 
     return (
         <>
@@ -37,10 +60,11 @@ export default function HomePage(props) {
                         <div className="navbar-nav me-auto">
                             <a className="nav-item nav-link mx-4 active" href="javascript:void(0)">Home</a>
                             <a className="nav-item nav-link mx-4" href="#about">About</a>
-                            <a className="nav-item nav-link mx-4" href="javascript:void(0)">Acedemics</a>
-                            <a className="nav-item nav-link mx-4" href="javascript:void(0)">Admission</a>
-                            <a className="nav-item nav-link mx-4" href="javascript:void(0)">Examination</a>
-                            <a className="nav-item nav-link mx-4" href="javascript:void(0)">News & Events</a>
+                            <a className="nav-item nav-link mx-4" href="#acedemics">Acedemics</a>
+                            <Link className="nav-item nav-link mx-4" to="/user/enrollment/form">Registration</Link>
+                            <a className="nav-item nav-link mx-4" href="#admission">Admission</a>
+                            <a className="nav-item nav-link mx-4" href="#examination">Examination</a>
+                            <a className="nav-item nav-link mx-4" href="#newsevents">News & Events</a>
                             <a className="nav-item nav-link mx-4" href="#contact">Contact</a>
                             <a className="nav-item nav-link mx-4" onClick={props.openSigninModal}>Signin</a>
                             <a className="nav-item nav-link mx-4" onClick={props.openSignupModal} >Signup</a>
@@ -109,68 +133,41 @@ export default function HomePage(props) {
                 </div>
             </div>
 
-            <div className='mb-5 mt-5' style={{ 'text-align': 'center' }}>
-                <h1>Explore our programs</h1>
-            </div>
-            <div className="row mb-5 mx-3">
-                <div className="col-md-6 col-lg-3 mb-3">
-                    <div className="card h-100">
-                        <img className="card-img-top" src={college3} alt="Card image cap" />
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </p>
-                            <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-                        </div>
-                    </div>
+            <section id="acedemics">
+                <div className='mb-5 mt-5' style={{ 'text-align': 'center' }}>
+                    <h1>Explore our programs</h1>
                 </div>
-                <div className="col-md-6 col-lg-3 mb-3">
-                    <div className="card h-100">
-                        <img className="card-img-top" src={college3} alt="Card image cap" />
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </p>
-                            <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-                        </div>
-                    </div>
+                <div className="row mb-5 mx-3 scroll-container" style={{'overflow-x': 'auto'}}>
+                    {
+                        coursesList.map((course, index) =>(
+                            <Programs key={index} img={college1} course={course.coursename} content={course.details} />
+                        ))
+                    }
+                   
                 </div>
-                <div className="col-md-6 col-lg-3 mb-3">
-                    <div className="card h-100">
-                        <img className="card-img-top" src={college3} alt="Card image cap" />
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </p>
-                            <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-                        </div>
-                    </div>
+            </section>
+
+
+            <section id="admission">
+                <div className='mb-5 mt-5' style={{ 'text-align': 'center' }}>
+                    <h1>Admission Section</h1>
                 </div>
-                <div className="col-md-6 col-lg-3 mb-3">
-                    <div className="card h-100">
-                        <img className="card-img-top" src={college3} alt="Card image cap" />
-                        <div className="card-body">
-                            <h5 className="card-title">Card title</h5>
-                            <p className="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </p>
-                            <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-                        </div>
-                    </div>
+
+            </section>
+            <section id="examination">
+                <div className='mb-5 mt-5' style={{ 'text-align': 'center' }}>
+                    <h1>Examination Section</h1>
                 </div>
-            </div>
 
-
-
-
-
+            </section>
+            <section id="newsevents">
+                <div className='mb-5 mt-5' style={{ 'text-align': 'center' }}>
+                    <h1>News and Events</h1>
+                </div>
+            </section>
 
 
             <section id="about">
-
                 <div className="col-lg-12 col-md-6 mx-3">
                     <h3 className="text-light fw-semibold">About Us</h3>
                     <div className="demo-inline-spacing mt-3">
@@ -229,71 +226,7 @@ export default function HomePage(props) {
                         </div>
                     </div>
                 </div>
-
-
-
-
-                <div className="section-content clearfix">
-                    <div id="news-carousel" className="news-carousel carousel slide">
-                        <div className="carousel-inner">
-                            <div className="item active" style={{ 'text-align': 'justify' }}>
-                                <div className="col-md-4 news-item">
-                                    <h2 className="title"><a href="news-single.html">History</a></h2>
-                                    {/* <img className="thumb" src="assets/images/news/news-thumb-1.jpg" alt="" /> */}
-                                    <p>St. Xavier's College, Ranchi, was started by the Ranchi Jesuit Society, on July 3,
-                                        1944. Ever since 1889 and pre-independence era, when a number of secondary schools
-                                        came into existence in Ranchi, the Society felt the need of starting a College.
-                                    </p>
-                                    <a className="read-more" href="History">Read more<i className="fa fa-chevron-right"></i></a>
-                                </div>
-
-                                <div className="col-md-4 news-item">
-                                    <h2 className="title"><a href="news-single.html">Vision</a></h2>
-                                    <p>St. Xavier College, Ranchi was started by the Ranchi Jesuits Society called (Society
-                                        of Jesus) a Christian Religious Order founded by St. Ignatius Loyola in 1540. Since
-                                        its foundation, the Jesuits have contributed in the field of education throughout
-                                        the world. </p>
-                                    <a className="read-more" href="VisionMission">Read more<i className="fa fa-chevron-right"></i></a>
-                                    <img className="thumb" src="assets/images/news/news-thumb-2.jpg" alt="" />
-                                </div>
-
-                                <div className="col-md-4 news-item">
-                                    <h2 className="title"><a href="news-single.html">Crest of the College</a></h2>
-                                    <p>The crest of the college consists of three parts. IHS, the initial letters of the
-                                        Greek words, Jesu, Huios, Soter – Jesus, Son, and Redeemer is the motto of the Society
-                                        of Jesus. The little flower shows our aim to illumine the world and society.
-                                    </p>
-
-                                    <img className="thumb" src="assets/images/news/news-thumb-3.jpg" alt="" />
-                                </div>
-
-                            </div>
-
-                            <div className="item" style={{ 'text-align': 'justify' }}>
-
-
-                                <div className="col-md-4 news-item">
-                                    <h2 className="title"><a href="news-single.html">Management</a></h2>
-                                    <p>The Ranchi Jesuit Provience administers St. Xavier's College through a Governing
-                                        Body whose Chairman is the Provincial, Vice Chairman is the Rector of the College
-                                        and Secretary is the Principal who is also the Chief Executive of the Governing
-                                        Body. </p>
-                                    <a className="read-more" href="Administration">Read more<i className="fa fa-chevron-right"></i></a>
-                                    <img className="thumb" src="assets/images/news/news-thumb-2.jpg" alt="" />
-                                </div>
-
-                                <div className="col-md-4 news-item">
-                                    <h2 className="title"><a href="news-single.html">Affiliation</a></h2>
-                                    <p>The College is affiliated to Ranchi University, Ranchi. It offers I.A.I.Sc./I.Com.
-                                        courses under the Jharkhand Academic Council, B.A./B.Sc./B.Com./Vocational Degree
-                                        Courses, Post Graduate courses and B.Ed. affiliation by Ranchi University Ranchi.</p>
-                                    <a className="read-more" href="VisionMission">Read more<i className="fa fa-chevron-right"></i></a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </section>
 
 

@@ -6,12 +6,10 @@ export default function UpdatePasswordModal(props) {
 
     function handlePasswordInput(e){
         setPassword(e.target.value);
+        
     }
     function handlePasswordMatch(e){
         setCpassword(e.target.value);
-        if(password!==cpassword){
-            alert('Entered password not matched previous one');
-        }
     }
 
     return (
@@ -32,14 +30,14 @@ export default function UpdatePasswordModal(props) {
                             </div>
                             <div className="row my-4">
                                 <label htmlFor="confirm password">Confirm Password</label>
-                                <input type="text" placeholder='Retype password' name="cpassword" className='form-control' onBlur={handlePasswordMatch}/>
+                                <input type="text" placeholder='Retype password' name="cpassword" className='form-control' onChange={handlePasswordMatch}/>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" onClick={() => {
                                 props.setSidenavBtnState({updatePassword: false})
                             }}>Close</button>
-                            <button type="button" class="btn btn-primary" onClick={()=>{props.handlePasswordUpdate(password)}}>Update</button>
+                            <button type="button" class="btn btn-primary" onClick={()=>{props.handlePasswordUpdate(password,cpassword);props.setSidenavBtnState({updatePassword: false})}}>Update</button>
                         </div>
                     </div>
                 </div>

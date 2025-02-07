@@ -1,4 +1,4 @@
-import react, { useState, useEffect} from 'react'
+import react, { useState, useEffect, useRef} from 'react'
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import SidenavButton from './usercomponent/SidenavButton';
 import UpdatePasswordModal from './usercomponent/UpdatePasswordModal';
@@ -14,18 +14,20 @@ export default function Sidenav(props) {
         updateMobile: false,
     });
 
-
     const [activeItem, setActiveItem] = useState('Profile');
     const role = sessionStorage.getItem('role');
+    const prevRoleRef = useRef();
 
     useEffect(() => {
-        
-        if (role === 'ADMIN') {
+        if (prevRoleRef.current !== role) {
+          if (role === 'ADMIN') {
             setActiveItem('Dashboard');
-        }else if(role==='USER'){
-            setActiveItem('Profile')
+          } else if (role === 'USER') {
+            setActiveItem('Profile');
+          }
         }
-    }, [role]);
+        prevRoleRef.current = role;
+      }, [role]);
 
     const handleMobileEmailUpdate = async (mobEmail) => {
         
@@ -44,7 +46,6 @@ export default function Sidenav(props) {
             if (response.status===200) {
                 alert("Mobile and email updated successfully");
                 setSidenavBtnState({...sidenavBtnState, ['updateMobile']: false});
-               
             }
         } catch (error) {
             alert("Something went wrong!");
@@ -52,19 +53,21 @@ export default function Sidenav(props) {
         }
     };
 
-    const handlePasswordUpdate = async (password) => {
+    const handlePasswordUpdate = async (password,cpassword) => {
+        if(password!==cpassword){
+            alert('Entered password not matched previous one');
+            return
+        }
         const config = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,
             }
         };
-
         const data = new URLSearchParams();
         data.append('password', password);
-
         const response = axios.post("http://localhost:9095/api/v1/update/password", data, config)
-        if (response.data) {
-            alert(response.data);
+        if (response.status==200) {
+            alert("password updated successfully");
         }
     }
 
@@ -89,12 +92,12 @@ export default function Sidenav(props) {
                             <li className="menu-header small text-uppercase">
                                 <span className="menu-header-text">acedemics</span>
                             </li>
-                            <SidenavButton value="Admitcard" actionpath="/user/landing" activeItem={activeItem} setActiveItem = {setActiveItem}/>
+                            <SidenavButton value="Admitcard" actionpath="/user/stu/admitcard" activeItem={activeItem} setActiveItem = {setActiveItem}/>
                             <SidenavButton value="Result" actionpath="/user/profile/update" activeItem={activeItem} setActiveItem={setActiveItem} />
                             <SidenavButton value="Scrutiny" actionpath="user/examform" activeItem={activeItem} setActiveItem={setActiveItem}/>
                             <li className="menu-header small text-uppercase"><span className="menu-header-text">Components</span></li>
 
-                            <SidenavButton value="Fee's Payment" actionpath="/user/landing" activeItem={activeItem} setActiveItem = {setActiveItem}/>
+                            <SidenavButton value="Fee's Payment" actionpath="" activeItem={activeItem} setActiveItem = {setActiveItem}/>
                             <SidenavButton value="News & Events" actionpath="/user/profile/update" activeItem={activeItem} setActiveItem={setActiveItem} />
                             <SidenavButton value="Feed Back" actionpath="user/examform" activeItem={activeItem} setActiveItem={setActiveItem}/>
                             <SidenavButton value="Update mobile & email" actionpath="user/examform" activeItem={activeItem} setActiveItem={setActiveItem} setSidenavBtnState={setSidenavBtnState}/>

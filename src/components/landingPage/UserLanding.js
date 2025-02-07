@@ -59,7 +59,6 @@ const UserLanding = () => {
 
     }
 
- 
     return (
         <>
             <div className="layout-wrapper layout-content-navbar">

@@ -1,4 +1,4 @@
-import {react,useState, useEffect, useContext} from 'react'
+import { react, useState, useEffect, useContext } from 'react'
 import { useNavigate } from "react-router-dom";
 // import axios from '../../api/CustomAxiosConfig';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import { useOutletContext } from 'react-router-dom';
 
 export default function UserProfile() {
 
-    const { userDetails, profilePath,setProfilePath, setSignaturePath}=useOutletContext();
+    const { userDetails, profilePath, setProfilePath, setSignaturePath } = useOutletContext();
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         const formData = new FormData();
@@ -32,6 +32,10 @@ export default function UserProfile() {
         }
     };
 
+    // useEffect(()=>{
+    //     alert(userDetails.role)
+    // })
+
     return (
         <>
             <div className="container-xxl flex-grow-1 container-p-y">
@@ -44,9 +48,12 @@ export default function UserProfile() {
                             <li className="nav-item">
                                 <a className="nav-link" href="pages-account-settings-notifications.html"><i className="bx bx-bell me-1"></i> Notifications</a>
                             </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="pages-account-settings-connections.html"><i className="bx bx-link-alt me-1"></i> Connections</a>
-                            </li>
+                            {userDetails.role == 'ADMIN_ROLE' &&
+                                (<li className="nav-item">
+                                    <a className="nav-link" href="pages-account-settings-connections.html"><i className="bx bx-link-alt me-1"></i>Publish News & Event</a>
+                                </li>)
+                            }
+
                         </ul>
                         <div className="card mb-4">
                             <h5 className="card-header">Profile Details</h5>

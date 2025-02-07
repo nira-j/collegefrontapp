@@ -15,6 +15,8 @@ import NewCoursePage from './components/landingPage/admincomponent/NewCoursePage
 import { StudentList } from './components/landingPage/admincomponent/StudentList';
 import { CourseList } from './components/landingPage/admincomponent/CourseList';
 import NewStudentPage from './components/landingPage/admincomponent/NewStudentPage'
+import AdmitCard from './components/landingPage/usercomponent/Admitcard';
+import EnrollmentForm from './components/landingPage/usercomponent/EnrollmentForm';
 
 function App() {
   const [isSigninModalOpen, setIsSigninModalOpen] = useState(false);
@@ -48,12 +50,14 @@ const closeSignupModal = () => {
          </div>
         } />
 
+        <Route path="/user/enrollment/form" element={<EnrollmentForm />}/>
         <Route element={<UserLanding />}>
           {/* user landing page */}
           <Route path="/user/landing" element={<UserProfile />}/>
           <Route path="/user/examform" element={<Examform />}/>
           {/* update profile form */}
           <Route path="/user/profile/update" element={<UserProfileUpdate />}/> 
+          <Route path="/user/stu/admitcard" element={<AdmitCard />}/>
         </Route>
 
 
